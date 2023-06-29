@@ -1,2 +1,4 @@
 # iBigInteger
-A Hign-precision Integer library written by C++
+A High-precision Integer library written by C++
+
+Powered by Minsecrus
