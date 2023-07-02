@@ -1,8 +1,6 @@
-#include "iBigInteger.cpp"
-
+#include <iostream>
 #include <unistd.h>
-
-#define TEST
+#include "iBigInteger.h"
 
 int main() {
 
@@ -88,7 +86,7 @@ int main() {
     iBigInteger _8_b("123456789123456789");
     _8_a -= _8_b;
     std::cout << "input: 123456789123456789 and 123456789123456789 (123456789123456789 -= 123456789123456789)"
-            << std::endl;
+              << std::endl;
     std::cout << _8_a;
     std::cout << std::endl;
     iBigInteger _8_d("-123456789");
@@ -97,9 +95,5 @@ int main() {
     std::cout << _8_a;
     std::cout << std::endl << std::endl;
     usleep(100);
-
-
-
     return 0;
 }
-
