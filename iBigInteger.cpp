@@ -93,10 +93,9 @@ iBigInteger::iBigInteger(const std::string &s, int radix) {
             v.emplace_back(0);
         }
     }
-    delete[] dealtString;
 }
 
-iBigInteger iBigInteger::operator+(const iBigInteger &b) {
+iBigInteger iBigInteger::operator+(const iBigInteger &b) const {
     if (isZero())return b;
     if (b.isZero())return *this;
     iBigInteger c;
@@ -105,7 +104,7 @@ iBigInteger iBigInteger::operator+(const iBigInteger &b) {
     }
     long long temp;
     long long carry = 0;
-    size_t max = std::max(size(), b.size());
+    size_t max = std::max(this->v.size(), b.v.size());
     for (int i = 0; i < max; i++) {
         temp = carry + (v.size() > i ? v[i] : 0) + (b.v.size() > i ? b.v[i] : 0);
         carry = 0;
@@ -127,7 +126,7 @@ iBigInteger iBigInteger::operator+(const iBigInteger &b) {
     return c;
 }
 
-iBigInteger iBigInteger::operator-(const iBigInteger &b) {
+iBigInteger iBigInteger::operator-(const iBigInteger &b) const {
     if (isZero())return -b;
     if (b.isZero())return *this;
     iBigInteger c;
@@ -140,7 +139,7 @@ iBigInteger iBigInteger::operator-(const iBigInteger &b) {
     } else flag = false;
     long long temp;
     long long carry = 0;
-    size_t max = std::max(size(), b.size());
+    size_t max = std::max(this->v.size(), b.v.size());
     for (int i = 0; i < max; i++) {
         temp = -carry + (v.size() > i ? v[i] : 0) - (b.v.size() > i ? b.v[i] : 0);
         carry = 0;
@@ -148,7 +147,7 @@ iBigInteger iBigInteger::operator-(const iBigInteger &b) {
             temp += (2ull << 31);
             carry = 1;
         }
-        if (c.v.capacity() <= i) {
+        if (c.v.size() <= i) {
             c.v.emplace_back(0);
         }
         c.v[i] = temp;
@@ -225,11 +224,40 @@ iBigInteger iBigInteger::pupilMultiply(const iBigInteger &i) {
 }
 
 iBigInteger iBigInteger::karatsubaMultiply(const iBigInteger &i) {
-    return {""};
+    int n = std::max((int) this->v.size() / 2, (int) i.v.size() / 2);
+    iBigInteger p = this->moveRight(n), q, s;
+
+    if (p == 0) q = (*this);
+    else q = (*this) - p.moveLeft(n);
+
+    iBigInteger r = i.moveRight(n);
+
+    if (r == 0) s = i;
+    else s = i - r.moveLeft(n);
+    /*
+    //    p  q
+    //    r  s
+    //---------
+    //   ps qs
+    //pr qr
+    // (p+q)(r+s)=pr+qr+ps+qs
+    // ps+qr=(p+q)(r+s)-pr-qs
+    */
+
+    iBigInteger q_mul_s = q * s;
+    iBigInteger r_mul_p = r * p;
+
+    iBigInteger p_add_q = p + q;
+    iBigInteger r_add_s = r + s;
+
+    iBigInteger p_add_q_mul_r_add_s = p_add_q * r_add_s;
+
+    return r_mul_p.moveLeft(2 * n) + (p_add_q_mul_r_add_s - r_mul_p - q_mul_s).moveLeft(n) + q_mul_s;
+
 }
 
 iBigInteger iBigInteger::NTTMultiply(const iBigInteger &i) {
-    return {""};
+    return {};
 }
 
 void iBigInteger::delete0() {
@@ -239,7 +267,7 @@ void iBigInteger::delete0() {
     }
 }
 
-iBigInteger iBigInteger::moveLeft(int n) {
+iBigInteger iBigInteger::moveLeft(int n) const {
     if (isZero())return *this;
     iBigInteger c;
     for (int i = 1; i < n; i++) {
@@ -252,17 +280,22 @@ iBigInteger iBigInteger::moveLeft(int n) {
     return c;
 }
 
-iBigInteger iBigInteger::moveRight(int n) {
+iBigInteger iBigInteger::moveRight(int n) const {
     if (isZero())return *this;
+    bool movedInto = false;
     iBigInteger c;
     c.v.pop_back();
     int cnt = n;
-    for (unsigned int &i: v) {
+    for (const unsigned int &i: v) {
         if (cnt > 0) {
             cnt -= 1;
         } else {
+            movedInto = true;
             c.v.emplace_back(i);
         }
+    }
+    if (!movedInto) {
+        c.v.emplace_back(0);
     }
     return c;
 }
@@ -325,11 +358,17 @@ iBigInteger iBigInteger::from1MovingLeft(int n) {
 }
 
 iBigInteger iBigInteger::fillBits(long long int n) {
-    return iBigInteger();
+    iBigInteger i;
+    i.v.pop_back();
+    for (long long cnt = 0; cnt < n / 32; cnt++) {
+        i.v.emplace_back(4294967295);
+    }
+    i.v.emplace_back((1 << (n % 32)) - 1);
+    return i;
 }
 
-size_t iBigInteger::size() {
-    return 0;
+size_t iBigInteger::size() const {
+    return this->v.size();
 }
 
 bool iBigInteger::accordWithRadix(int c, int radix) {
@@ -441,7 +480,6 @@ auto operator<=>(const iBigInteger &lhs, const iBigInteger &rhs) {
 bool operator==(const iBigInteger &lhs, const iBigInteger &rhs) {
     return (lhs <=> rhs) == std::strong_ordering::equal;
 }
-
 
 void operator+=(iBigInteger &lhs, iBigInteger &&rhs) {
     lhs = lhs + rhs;

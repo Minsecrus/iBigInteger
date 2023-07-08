@@ -23,9 +23,9 @@ public:
     iBigInteger(const std::string &s, int radix = 10);
 
 
-    iBigInteger operator+(const iBigInteger &b);
+    iBigInteger operator+(const iBigInteger &b)const;
 
-    iBigInteger operator-(const iBigInteger &b);
+    iBigInteger operator-(const iBigInteger &b)const;
 
     iBigInteger operator*(const iBigInteger &i);
 
@@ -46,6 +46,8 @@ public:
 
     void printEachNumber() const;
 
+    [[nodiscard]] size_t size()const;
+
 private:
 
     void setFlag(bool flag);
@@ -54,9 +56,9 @@ private:
 
     void delete0();
 
-    iBigInteger moveLeft(int n);
+    iBigInteger moveLeft(int n)const;
 
-    iBigInteger moveRight(int n);
+    iBigInteger moveRight(int n)const;
 
     static bool check0(const char *str, int length);
 
@@ -72,8 +74,6 @@ private:
 
     static iBigInteger fillBits(long long n);
 
-
-    [[nodiscard]] static size_t size();
 
     [[nodiscard]]bool isZero() const;
 
