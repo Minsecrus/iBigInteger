@@ -1,5 +1,6 @@
 #include <cstring>
 #include <iostream>
+#include <ranges>
 #include "iBigInteger.h"
 
 iBigInteger::iBigInteger() {
@@ -166,6 +167,32 @@ iBigInteger iBigInteger::operator-(const iBigInteger &b) {
     return c;
 }
 
+iBigInteger iBigInteger::operator*(const iBigInteger &i) {
+
+    if (isZero() || i.isZero())return {0};
+    bool resultFlag = !this->_flag ^ i._flag;
+    if (this->v.size() < 32 && i.v.size() < 32) {
+#ifdef TEST
+        std::cout << "<=> pupilMultiply" << std::endl;
+#endif
+        iBigInteger result = pupilMultiply(i);
+#ifdef TEST
+        std::cout << result << std::endl;
+#endif
+        result.setFlag(resultFlag);
+        return result;
+    } else if (this->v.size() < 256 && i.v.size() < 256) {
+#ifdef TEST
+        std::cout << "<=> KaratsubaMultiply" << std::endl;
+#endif
+        iBigInteger result = karatsubaMultiply(i);
+        result.setFlag(resultFlag);
+        return result;
+    }
+
+    return {""};
+}
+
 iBigInteger iBigInteger::operator-() const {
     return negative(*this);
 }
@@ -180,6 +207,29 @@ iBigInteger iBigInteger::operator>>(int n) {
 
 void iBigInteger::setFlag(bool flag) {
     _flag = flag;
+}
+
+iBigInteger iBigInteger::pupilMultiply(const iBigInteger &i) {
+    iBigInteger c;
+    for (unsigned int j: std::ranges::reverse_view(v)) {
+        c = c.moveLeft(1);
+        iBigInteger temp;
+        for (unsigned int k: std::ranges::reverse_view(i.v)) {
+            temp = temp.moveLeft(1);
+            temp += {j * 1ull * k};
+        }
+        c += temp;
+    }
+    c.delete0();
+    return c;
+}
+
+iBigInteger iBigInteger::karatsubaMultiply(const iBigInteger &i) {
+    return {""};
+}
+
+iBigInteger iBigInteger::NTTMultiply(const iBigInteger &i) {
+    return {""};
 }
 
 void iBigInteger::delete0() {

@@ -27,12 +27,26 @@ public:
 
     iBigInteger operator-(const iBigInteger &b);
 
+    iBigInteger operator*(const iBigInteger &i);
+
+
     iBigInteger operator-() const;
 
     iBigInteger operator<<(int n);
 
     iBigInteger operator>>(int n);
 
+
+    iBigInteger pupilMultiply(const iBigInteger &i);
+
+    iBigInteger karatsubaMultiply(const iBigInteger &i);
+
+    iBigInteger NTTMultiply(const iBigInteger &i);
+
+
+    void printEachNumber() const;
+
+private:
 
     void setFlag(bool flag);
 
@@ -50,8 +64,6 @@ public:
 
     static void divideBy2(char *str, int radix);
 
-    void printEachNumber() const;
-
     static iBigInteger negative(const iBigInteger &i);
 
     iBigInteger absoluteValue();
@@ -61,7 +73,7 @@ public:
     static iBigInteger fillBits(long long n);
 
 
-    [[nodiscard]] static size_t size() ;
+    [[nodiscard]] static size_t size();
 
     [[nodiscard]]bool isZero() const;
 
