@@ -29,13 +29,13 @@ public:
 
     iBigInteger operator*(const iBigInteger &i);
 
+    iBigInteger operator%(const iBigInteger &i);
 
     iBigInteger operator-() const;
 
     iBigInteger operator<<(int n);
 
     iBigInteger operator>>(int n);
-
 
     iBigInteger pupilMultiply(const iBigInteger &i);
 
@@ -102,4 +102,7 @@ void operator-=(iBigInteger &lhs, iBigInteger &&rhs);
 
 void operator-=(iBigInteger &lhs, const iBigInteger &rhs);
 
+void operator++(iBigInteger &lhs);
+
+void operator--(iBigInteger &lhs);
 #endif //IBIGINTEGER_DEMO_IBIGINTEGER_H
