@@ -8,35 +8,35 @@ int main() {
     std::cout << "|     This is iBigInteger test program     |" << std::endl;
     std::cout << "+------------------------------------------+" << std::endl;
     std::cout << std::endl;
-    usleep(100);
+    usleep(100000);
 
     std::cout << "|>Test 1: iBigInteger(string)" << std::endl;
     iBigInteger a("123456789");
     std::cout << "input: 123456789" << std::endl;
     a.printEachNumber();
     std::cout << std::endl;
-    usleep(100);
+    usleep(100000);
 
     std::cout << "|>Test 2: iBigInteger(string, int)" << std::endl;
     iBigInteger b("123456789", 14);
     std::cout << "input: 123456789 and 14" << std::endl;
     b.printEachNumber();
     std::cout << std::endl;
-    usleep(100);
+    usleep(100000);
 
     std::cout << "|>Test 3: iBigInteger(int)" << std::endl;
     iBigInteger c(123456789);
     std::cout << "input: 123456789" << std::endl;
     c.printEachNumber();
     std::cout << std::endl;
-    usleep(100);
+    usleep(100000);
 
     std::cout << "|>Test 4: iBigInteger(long long)" << std::endl;
     iBigInteger d(123456789123456789);
     std::cout << "input: 123456789123456789" << std::endl;
     d.printEachNumber();
     std::cout << std::endl;
-    usleep(100);
+    usleep(100000);
 
     std::cout << "|>Test 5: operator+()" << std::endl;
     iBigInteger _5_a("123456789123456789");
@@ -50,7 +50,7 @@ int main() {
     std::cout << "input: -123456789 and 123456789123456789" << std::endl;
     std::cout << _5_e;
     std::cout << std::endl << std::endl;
-    usleep(100);
+    usleep(100000);
 
     std::cout << "|>Test 6: operator-()" << std::endl;
     iBigInteger _6_a("123456789123456789");
@@ -64,7 +64,7 @@ int main() {
     std::cout << "input: -123456789 and 123456789123456789" << std::endl;
     std::cout << _6_e;
     std::cout << std::endl << std::endl;
-    usleep(100);
+    usleep(100000);
 
     std::cout << "|>Test 7: operator+=()" << std::endl;
     iBigInteger _7_a("123456789123456789");
@@ -79,7 +79,7 @@ int main() {
     std::cout << "input: 246913578246913578 and -123456789 (246913578246913578 += (-123456789) )" << std::endl;
     std::cout << _7_a;
     std::cout << std::endl << std::endl;
-    usleep(100);
+    usleep(100000);
 
     std::cout << "|>Test 8: operator-=()" << std::endl;
     iBigInteger _8_a("123456789123456789");
@@ -89,18 +89,6 @@ int main() {
               << std::endl;
     std::cout << _8_a;
     std::cout << std::endl << std::endl;
-    usleep(100);
-//
-//    iBigInteger largeA("8589934720");
-//    iBigInteger largeB("8589934720");
-//
-//    std::cout << largeA.size() << std::endl;
-//    std::cout << largeB.size() << std::endl;
-//
-//    iBigInteger largeC = largeA * largeB;
-//    std::cout << largeC.size() << std::endl;
-//    std::cout << largeC << std::endl;
-
     usleep(100000);
 
     iBigInteger largeD = {

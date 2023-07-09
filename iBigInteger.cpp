@@ -234,12 +234,13 @@ iBigInteger iBigInteger::karatsubaMultiply(const iBigInteger &i) {
 
     if (r == 0) s = i;
     else s = i - r.moveLeft(n);
+
     /*
-    //    p  q
-    //    r  s
-    //---------
-    //   ps qs
-    //pr qr
+    //     p  q
+    //     r  s
+    // ---------
+    //    ps qs
+    // pr qr
     // (p+q)(r+s)=pr+qr+ps+qs
     // ps+qr=(p+q)(r+s)-pr-qs
     */
