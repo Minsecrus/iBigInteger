@@ -76,7 +76,7 @@ iBigInteger::iBigInteger(const std::string &s, int radix) {
             if (basicString[i] >= '0' && basicString[i] <= '9') {
                 dealtString[dealtLength++] = basicString[i];
             }
-            if (basicString[i] >= 'a' && basicString[i] <= 'f') {
+            if (basicString[i] >= 'a' && basicString[i] <= 'z') {
                 dealtString[dealtLength++] = (char) (basicString[i] - 'a' + ':');
             }
         }
@@ -191,7 +191,12 @@ iBigInteger iBigInteger::operator*(const iBigInteger &i) {
 
     return {""};
 }
-
+iBigInteger iBigInteger::operator%(const iBigInteger &i) {
+    iBigInteger c=*this;
+    if(c<i) return c;
+    while(c>=i) c-=i;
+    return c;
+}
 iBigInteger iBigInteger::operator-() const {
     return negative(*this);
 }
@@ -375,7 +380,7 @@ size_t iBigInteger::size() const {
 bool iBigInteger::accordWithRadix(int c, int radix) {
     if (radix <= 10) {
         return c >= '0' && c < ('0' + radix);
-    } else if (radix <= 16) {
+    } else if (radix <= 36) {
         return c >= '0' && c <= '9' || c >= 'a' && c < ('a' + radix - 10);
     }
     return false;
@@ -496,4 +501,12 @@ void operator-=(iBigInteger &lhs, iBigInteger &&rhs) {
 
 void operator-=(iBigInteger &lhs, const iBigInteger &rhs) {
     lhs = lhs - rhs;
+}
+
+void operator++(iBigInteger &lhs) {
+    lhs = lhs + iBigInteger(1);
+}
+
+void operator--(iBigInteger &lhs) {
+    lhs = lhs - iBigInteger(1);
 }

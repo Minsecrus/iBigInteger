@@ -100,6 +100,8 @@ int main() {
     std::cout << largeE.size() << std::endl;
     std::cout << largeF.size() << std::endl;
     std::cout << largeF << std::endl;
+    std::cout << largeF << std::endl;
+    largeF = largeD % largeE;
     usleep(300000);
 
     return 0;
