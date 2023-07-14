@@ -50,6 +50,10 @@ public:
 
 private:
 
+    friend auto operator<=>(const iBigInteger &lhs, const iBigInteger &rhs);
+
+    friend bool operator==(const iBigInteger &lhs, const iBigInteger &rhs);
+
     void setFlag(bool flag);
 
     static bool accordWithRadix(int c, int radix);
@@ -88,10 +92,6 @@ private:
 
 
     friend std::ostream &operator<<(std::ostream &os, const iBigInteger &i);
-
-    friend auto operator<=>(const iBigInteger &lhs, const iBigInteger &rhs);
-
-    friend bool operator==(const iBigInteger &lhs, const iBigInteger &rhs);
 };
 
 void operator+=(iBigInteger &lhs, iBigInteger &&rhs);

@@ -95,6 +95,33 @@ iBigInteger::iBigInteger(const std::string &s, int radix) {
     }
 }
 
+auto operator<=>(const iBigInteger &lhs, const iBigInteger &rhs) {
+    if (lhs.isZero() && rhs.isZero())return std::strong_ordering::equal;
+    if (lhs._flag && !rhs._flag)return std::strong_ordering::greater;
+    if (!lhs._flag && rhs._flag)return std::strong_ordering::less;
+    if (!lhs._flag) {
+        if (lhs.size() < rhs.size())return std::strong_ordering::less;
+        if (lhs.size() > rhs.size())return std::strong_ordering::greater;
+        for (auto k = (long long) lhs.size() - 1; k >= 0; --k) {
+            if (lhs.v[k] < rhs.v[k])return std::strong_ordering::less;
+            if (lhs.v[k] > rhs.v[k])return std::strong_ordering::greater;
+        }
+        return std::strong_ordering::equal;
+    } else {
+        if (lhs.size() > rhs.size())return std::strong_ordering::less;
+        if (lhs.size() < rhs.size())return std::strong_ordering::greater;
+        for (auto k = (long long) lhs.size() - 1; k >= 0; --k) {
+            if (lhs.v[k] < rhs.v[k])return std::strong_ordering::greater;
+            if (lhs.v[k] > rhs.v[k])return std::strong_ordering::less;
+        }
+        return std::strong_ordering::equal;
+    }
+}
+
+bool operator==(const iBigInteger &lhs, const iBigInteger &rhs) {
+    return (lhs <=> rhs) == std::strong_ordering::equal;
+}
+
 iBigInteger iBigInteger::operator+(const iBigInteger &b) const {
     if (isZero())return b;
     if (b.isZero())return *this;
@@ -460,32 +487,7 @@ std::ostream &operator<<(std::ostream &os, const iBigInteger &i) {
     return os;
 }
 
-auto operator<=>(const iBigInteger &lhs, const iBigInteger &rhs) {
-    if (lhs.isZero() && rhs.isZero())return std::strong_ordering::equal;
-    if (lhs._flag && !rhs._flag)return std::strong_ordering::greater;
-    if (!lhs._flag && rhs._flag)return std::strong_ordering::less;
-    if (!lhs._flag) {
-        if (lhs.size() < rhs.size())return std::strong_ordering::less;
-        if (lhs.size() > rhs.size())return std::strong_ordering::greater;
-        for (auto k = (long long) lhs.size() - 1; k >= 0; --k) {
-            if (lhs.v[k] < rhs.v[k])return std::strong_ordering::less;
-            if (lhs.v[k] > rhs.v[k])return std::strong_ordering::greater;
-        }
-        return std::strong_ordering::equal;
-    } else {
-        if (lhs.size() > rhs.size())return std::strong_ordering::less;
-        if (lhs.size() < rhs.size())return std::strong_ordering::greater;
-        for (auto k = (long long) lhs.size() - 1; k >= 0; --k) {
-            if (lhs.v[k] < rhs.v[k])return std::strong_ordering::greater;
-            if (lhs.v[k] > rhs.v[k])return std::strong_ordering::less;
-        }
-        return std::strong_ordering::equal;
-    }
-}
 
-bool operator==(const iBigInteger &lhs, const iBigInteger &rhs) {
-    return (lhs <=> rhs) == std::strong_ordering::equal;
-}
 
 void operator+=(iBigInteger &lhs, iBigInteger &&rhs) {
     lhs = lhs + rhs;
