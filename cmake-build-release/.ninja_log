@@ -1,0 +1,4 @@
+# ninja log v5
+1	577	7105289098868841	CMakeFiles/iBigInteger_Demo.dir/main.cpp.obj	99b3cd361cb2637c
+6	1162	7105289104720462	CMakeFiles/iBigInteger_Demo.dir/iBigInteger.cpp.obj	871e980e4cb5baf3
+1162	1294	7105289106016565	iBigInteger_Demo.exe	7fc5f08964ce855a
